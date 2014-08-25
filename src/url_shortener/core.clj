@@ -10,15 +10,12 @@
 
 (def alphabet "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
 (defn get-random-id [length]
-  (loop [acc []] (if (= (count acc) length)
-                   (apply str acc)
-                   (recur (conj acc (rand-nth alphabet))))))
+  (apply str (take length (repeatedly #(rand-nth alphabet)))))
 
 (def redis-connection
   {:pool {:max-active 8}
    :spec {:host "localhost"
           :port 6379
-          ;password ""
           :timeout 4000}})
 
 (defmacro wcar* [& body]
@@ -45,6 +42,4 @@
 
 (def app
   (-> (routes url-shortener)
-      (json-mw/wrap-json-body)
-      (json-mw/wrap-json-response)
-      (json-mw/wrap-json-params)))
+      (json-mw/wrap-json-response)))
