@@ -8,11 +8,11 @@
     [compojure.core :refer [POST GET defroutes]]
     [taoensso.carmine :as car :refer [wcar]]))
 
-(def alphabet "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+(defn rand-character [_]
+  (rand-nth "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"))
+
 (defn get-random-id [length]
-  (loop [acc []] (if (= (count acc) length)
-                   (apply str acc)
-                   (recur (conj acc (rand-nth alphabet))))))
+  (apply str (reduce conj [] (map rand-character (range length)))))
 
 (def redis-connection
   {:pool {:max-active 8}
