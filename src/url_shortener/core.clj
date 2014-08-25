@@ -8,7 +8,7 @@
     [compojure.core :refer [POST GET defroutes]]
     [taoensso.carmine :as car :refer [wcar]]))
 
-(defn rand-character []
+(defn rand-character [_]
   (rand-nth "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"))
 
 (defn get-random-id [length]
